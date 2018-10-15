@@ -189,9 +189,9 @@ class ReceiveUnpublishCommand:BaseCommand
     }
     
 }
-class UnpublishCommand:BaseCommand
+public class UnpublishCommand:BaseCommand
 {
-    override func receive(strData: String) {
+    override public func receive(strData: String) {
         if strData.contains("event")
         {
             delegate.disconnectMeetingById(id: delegate.getClienIDFromHandId(id: handle_id))

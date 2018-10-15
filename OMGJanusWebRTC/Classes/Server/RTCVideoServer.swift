@@ -30,7 +30,7 @@ public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
     var private_id:Int = 0
     var handle_id_for_cliendID:[Int:String] = [:]
     var info_for_cliendID:[Int:Publisher] = [:]
-    var client:RTCClient?
+    open var client:RTCClient?
     var type:JanusType = .Join
     private var socket:WebSocket?
     private var clientId:String = ""

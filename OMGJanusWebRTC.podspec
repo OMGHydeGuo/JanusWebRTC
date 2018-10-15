@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = 'OMGJanusWebRTC'
-    s.version          = '0.1.7'
+    s.version          = '0.1.8'
     s.summary          = 'OMGJanusWebRTC.'
     s.swift_version    = '4.2'
     
@@ -40,6 +40,6 @@ Pod::Spec.new do |s|
     # s.public_header_files = 'Pod/Classes/**/*.h'
     # s.frameworks = 'UIKit', 'MapKit'
     s.dependency 'WebRTC'
-    s.dependency 'Starscream'
+    s.dependency 'Starscream', '~> 3.0.6'
     
 end
