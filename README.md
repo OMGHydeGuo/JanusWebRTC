@@ -22,7 +22,7 @@ pod 'OMGJanusWebRTC'
 
 ## Author
 
-Hyde Guo, guohyde@gmail.com
+Hyde Guo, guohyde@onwardsmg.com
 
 ## License
 
