@@ -97,7 +97,7 @@ public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
         socket?.write(string:sendText)
     }
     
-    public func websocketDidConnect(socket: WebSocketClient) {
+    public func websocketDidConnect(socket: WebSocket) {
         
         print("[websocket connected]")
         handle_id_for_cliendID = [:]
@@ -106,7 +106,7 @@ public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
     }
 
     
-    public func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
+    public func websocketDidDisconnect(socket: WebSocket, error: NSError?) {
         if let e = error {
             print("[websocket  is disconnected: \(e.localizedDescription)]")
         } else {
@@ -114,12 +114,12 @@ public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
         }
     }
     
-    public func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
+    public func websocketDidReceiveMessage(socket: WebSocket, text: String) {
      
         onDataReceived(str: text)
     }
     
-    public func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
+    public func websocketDidReceiveData(socket: WebSocket, data: Data) {
 //        print("Received data: \(data.count)")
         let dataString = String(data: data, encoding: .utf8)!
         onDataReceived(str: dataString)

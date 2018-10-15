@@ -1,5 +1,4 @@
 import XCTest
-import OMGJanusWebRTC
 
 class Tests: XCTestCase {
     
