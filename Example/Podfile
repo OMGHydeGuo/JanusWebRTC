@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'OMGJanusWebRTC_Example' do
+  pod 'OMGJanusWebRTC', :path => '../'
+
+  target 'OMGJanusWebRTC_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

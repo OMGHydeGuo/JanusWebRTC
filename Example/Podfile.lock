@@ -1,0 +1,27 @@
+PODS:
+  - OMGJanusWebRTC (0.1.0):
+    - Starscream
+    - WebRTC
+  - Starscream (3.0.6)
+  - WebRTC (63.11.20455)
+
+DEPENDENCIES:
+  - OMGJanusWebRTC (from `../`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Starscream
+    - WebRTC
+
+EXTERNAL SOURCES:
+  OMGJanusWebRTC:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  OMGJanusWebRTC: 5766dd0bb089e7c6f0c2d892b4be4bbee3d152f8
+  Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
+  WebRTC: f2a6203584745fe53532633397557876b5d71640
+
+PODFILE CHECKSUM: 34e1f4d3480825dbd54f4253586608d5e575d284
+
+COCOAPODS: 1.5.3
