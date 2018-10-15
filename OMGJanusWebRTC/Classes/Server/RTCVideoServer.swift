@@ -22,9 +22,9 @@ public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
 
     
 
-    var initPublish = true
-    var maxViewer = 2
-    var displayName:String=""
+    open var initPublish = true
+    open var maxViewer = 2
+    open var displayName:String=""
     var roomId:Int64=1234
     var session_id:Int = 0
     var private_id:Int = 0
@@ -77,7 +77,7 @@ public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
         }
         return ""
     }
-    func getDisplayForClientId(id:String)-> String?
+    public func getDisplayForClientId(id:String)-> String?
     {
         for (clientId,publishData) in info_for_cliendID {
             if String(clientId) == id {
@@ -86,7 +86,7 @@ public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
         }
         return nil
     }
-    func getMyClienID()->String
+    public func getMyClienID()->String
     {
         return self.clientId
     }
@@ -158,7 +158,7 @@ public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
     }
     
     
-    func registerMeetRoom(_ roomId:Int64, clientId:String){
+    public func registerMeetRoom(_ roomId:Int64, clientId:String){
         
         self.roomId = roomId
         self.clientId = clientId
@@ -167,7 +167,7 @@ public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
         
     }
     
-    func disconnectMeetingById(id:String)
+    public func disconnectMeetingById(id:String)
     {
         client?.disconnect(id)
     }

@@ -9,7 +9,7 @@
 import Foundation
 import WebRTC
 
-class  WebRTCOperator: RTCClientDelegate {
+public class  WebRTCOperator: RTCClientDelegate {
     
     
     var delegate:OMGRTCClientDelegate
@@ -55,17 +55,17 @@ class  WebRTCOperator: RTCClientDelegate {
         return delegate
     }
     
-    func rtcClient(_ id:String ,client: RTCClient, didChangeConnectionState connectionState: RTCIceConnectionState) {
+    public func rtcClient(_ id:String ,client: RTCClient, didChangeConnectionState connectionState: RTCIceConnectionState) {
         getDelegate(id).rtcClient(id, didChangeConnectionState: connectionState)
     }
     
     
-    func rtcClient(_ id : String,client : RTCClient, didReceiveError error: Error) {
+    public func rtcClient(_ id : String,client : RTCClient, didReceiveError error: Error) {
         // Error Received
         getDelegate(id).rtcClient(id, didReceiveError: error)
     }
     
-    func rtcClient(_ id:String ,client : RTCClient, didGenerateIceCandidate iceCandidate: RTCIceCandidate) {
+    public func rtcClient(_ id:String ,client : RTCClient, didGenerateIceCandidate iceCandidate: RTCIceCandidate) {
         // iceCandidate generated, pass this to other user using any signal method your app uses
 
         let cData = CandidateData(sdpMid: iceCandidate.sdpMid!, lineIndex: Int(iceCandidate.sdpMLineIndex), candidate: iceCandidate.sdp)
@@ -74,7 +74,7 @@ class  WebRTCOperator: RTCClientDelegate {
         myServer.sendCommand(command: SendCandidateCommand(delegate: myServer as! RTCVideoServer, handleId: handle_id, data: cData))
     }
     
-    func rtcClient(_ id : String,client: RTCClient, startCallWithSdp sdp: RTCSessionDescription) {
+    public func rtcClient(_ id : String,client: RTCClient, startCallWithSdp sdp: RTCSessionDescription) {
         // SDP generated, pass this to other user using any signal method your app uses
         if sdp.type == .offer
         {
@@ -93,12 +93,12 @@ class  WebRTCOperator: RTCClientDelegate {
         
     }
     
-    func rtcClient(_ id : String,client : RTCClient, didReceiveLocalVideoTrack localVideoTrack: RTCVideoTrack) {
+    public func rtcClient(_ id : String,client : RTCClient, didReceiveLocalVideoTrack localVideoTrack: RTCVideoTrack) {
         // Use localVideoTrack generated for rendering stream to remoteVideoView
         getDelegate(id).rtcClient(id, didReceiveLocalVideoTrack: localVideoTrack)
         
     }
-    func rtcClient(_ id : String,client : RTCClient, didReceiveRemoteVideoTrack remoteVideoTrack: RTCVideoTrack) {
+    public func rtcClient(_ id : String,client : RTCClient, didReceiveRemoteVideoTrack remoteVideoTrack: RTCVideoTrack) {
         // Use remoteVideoTrack generated for rendering stream to remoteVideoView
         getDelegate(id).rtcClient(id, didReceiveRemoteVideoTrack: remoteVideoTrack)
     }
