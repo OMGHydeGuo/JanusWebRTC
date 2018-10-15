@@ -1,8 +1,8 @@
 PODS:
-  - OMGJanusWebRTC (0.1.5):
-    - Starscream (~> 2.1.1)
+  - OMGJanusWebRTC (0.1.6):
+    - Starscream
     - WebRTC
-  - Starscream (2.1.1)
+  - Starscream (3.0.6)
   - WebRTC (63.11.20455)
 
 DEPENDENCIES:
@@ -18,8 +18,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  OMGJanusWebRTC: 1eb0bbab3f5c8b4a27726de0051579fb6868dd0b
-  Starscream: 142bd8ef24592d985daee9fa48c936070b85b15f
+  OMGJanusWebRTC: 2f680f11731dd1a453c8a1eac55895dfa8bdc32d
+  Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
   WebRTC: f2a6203584745fe53532633397557876b5d71640
 
 PODFILE CHECKSUM: 34e1f4d3480825dbd54f4253586608d5e575d284
