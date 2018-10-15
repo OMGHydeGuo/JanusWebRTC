@@ -42,7 +42,7 @@ public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
     /**
      url : handshake socket server url
      */
-    init(url:String,client:RTCClient){
+    public init(url:String,client:RTCClient){
         socket = WebSocket(url: URL(string:url)!, protocols: ["janus-protocol"])
         socket?.delegate = self
         self.client = client

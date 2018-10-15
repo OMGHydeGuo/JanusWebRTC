@@ -19,7 +19,7 @@ public class  WebRTCOperator: RTCClientDelegate {
     
     
     // TODO  moew socket , move logic from OMPoperater
-    init(delegate:OMGRTCClientDelegate,omgSocket:OMGRTCServerDelegate) {
+    public init(delegate:OMGRTCClientDelegate,omgSocket:OMGRTCServerDelegate) {
         self.delegate = delegate
         self.omgSocket = omgSocket
     }
@@ -40,7 +40,7 @@ public class  WebRTCOperator: RTCClientDelegate {
         return omgSocket
     }
     
-    func disconnectAll()
+    public func disconnectAll()
     {
         for server in omgSocketArr {
             server.value.disconnectMeeting()
