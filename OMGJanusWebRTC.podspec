@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = 'OMGJanusWebRTC'
-    s.version          = '0.1.8'
+    s.version          = '0.1.9'
     s.summary          = 'OMGJanusWebRTC.'
     s.swift_version    = '4.2'
     

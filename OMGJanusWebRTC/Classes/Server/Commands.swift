@@ -20,7 +20,7 @@ public class BaseCommand:CommandDelegate
     var delegate:RTCVideoServer
     var handle_id:Int
     var preData:Codable?
-    init(delegate:RTCVideoServer,handleId:Int,data:Codable? = nil) {
+    public init(delegate:RTCVideoServer,handleId:Int,data:Codable? = nil) {
         self.transaction = UUID.init().uuidString
         self.delegate = delegate
         self.handle_id = handleId
