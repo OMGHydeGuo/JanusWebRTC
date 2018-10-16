@@ -118,7 +118,7 @@ struct JoinData : Codable {
     struct InData: Codable{
         var videoroom:String
         var description:String?
-        var id:Int?
+        var id:Double?
         var room:Int
         var private_id:Int?
         var publishers:[Publisher]

@@ -70,7 +70,7 @@ public class  WebRTCOperator: RTCClientDelegate {
 
         let cData = CandidateData(sdpMid: iceCandidate.sdpMid!, lineIndex: Int(iceCandidate.sdpMLineIndex), candidate: iceCandidate.sdp)
         let myServer = getServer(id)
-        let handle_id = myServer.getHandIdForClienID(id: id)
+        let handle_id = myServer.getHandIdForJanusId(id: id)
         myServer.sendCommand(command: SendCandidateCommand(delegate: myServer as! RTCVideoServer, handleId: handle_id, data: cData))
     }
     
@@ -80,14 +80,14 @@ public class  WebRTCOperator: RTCClientDelegate {
         {
             let jData = JsepData(type: "offer", sdp: sdp.sdp)
             let myServer = getServer(id)
-            let handle_id = myServer.getHandIdForClienID(id: id)
+            let handle_id = myServer.getHandIdForJanusId(id: id)
             myServer.sendCommand(command: SendOfferCommand(delegate: myServer as! RTCVideoServer, handleId: handle_id, data: jData))
         }
         else
         {
             let jData = JsepData(type: "answer", sdp: sdp.sdp)
             let myServer = getServer(id)
-            let handle_id = myServer.getHandIdForClienID(id: id)
+            let handle_id = myServer.getHandIdForJanusId(id: id)
             myServer.sendCommand(command: SendAnswerCommand(delegate: myServer as! RTCVideoServer, handleId: handle_id, data: jData))
         }
         
@@ -119,8 +119,8 @@ public class  WebRTCOperator: RTCClientDelegate {
 
 public protocol OMGRTCServerDelegate: class {
     func sendCommand(command:BaseCommand)
-    func getHandIdForClienID(id:String)->Int
-    func getClienIDFromHandId(id:Int)->String
+    func getHandIdForJanusId(id:String)->Int
+    func getJanusIdFromHandId(id:Int)->String
     func disconnectMeeting()
 }
 

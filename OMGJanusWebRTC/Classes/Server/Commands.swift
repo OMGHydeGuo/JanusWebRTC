@@ -70,7 +70,7 @@ class AttachCommand:BaseCommand
         do {
             let data:AttachData = try JSONDecoder().decode(AttachData.self, from: strData.data(using: .utf8)!)
             handle_id = data.data.id
-            delegate.handle_id_for_cliendID[handle_id] = ""
+            delegate.handle_id_to_janusId[handle_id] = ""
             
             if(delegate.type == .Listparticipants){
                 delegate.sendCommand(command: ListparticipantsCommand(delegate: delegate, handleId: handle_id))
@@ -99,7 +99,9 @@ class JoinForPublisherCommand:BaseCommand
             if strData.contains("event")
             {
                 let data:JoinData = try JSONDecoder().decode(JoinData.self, from: strData.data(using: .utf8)!)
-                let id = delegate.getMyClienID()
+                let id = String(data.plugindata.data.id ?? 0)
+                
+                delegate.handle_id_to_janusId[handle_id] = id
                 
                 if(delegate.initPublish){
                     delegate.client?.startConnection(id, localStream: true)
@@ -113,7 +115,7 @@ class JoinForPublisherCommand:BaseCommand
                     if index == delegate.maxViewer {
                         return
                     }
-                    delegate.info_for_cliendID[publisher.id] = publisher
+                    delegate.info_from_janusId[publisher.id] = publisher
                     delegate.sendCommand(command: AttachCommand(delegate: delegate, handleId: handle_id,data:AttachId(id: publisher.id)))
                     index += 1
                 }
@@ -124,8 +126,8 @@ class JoinForPublisherCommand:BaseCommand
     }
     
     override func getDataObject() -> [String : Any] {
-        delegate.handle_id_for_cliendID[handle_id] = delegate.getMyClienID()
-        return ["janus": "message", "transaction":transaction, "session_id":delegate.session_id,"handle_id":handle_id,"body":["display":delegate.displayName,"ptype":"publisher","request":"join","room":delegate.roomId]
+        
+        return ["janus": "message", "transaction":transaction, "session_id":delegate.session_id,"handle_id":handle_id,"body":["display":delegate.display,"ptype":"publisher","request":"join","room":delegate.roomId]
             ] as [String : Any]
     }
 }
@@ -151,7 +153,7 @@ class JoinForSubscriberCommand:BaseCommand
     override func getDataObject() -> [String : Any] {
 
         let pData:AttachId = preData as! AttachId
-        delegate.handle_id_for_cliendID[handle_id] = String(pData.id)
+        delegate.handle_id_to_janusId[handle_id] = String(pData.id)
         return ["janus": "message", "transaction":transaction, "session_id":delegate.session_id,"handle_id":handle_id,"body":["display":"subscriber", "feed":pData.id,"private_id":delegate.private_id,"ptype":"subscriber","request":"join","room":delegate.roomId]
             ] as [String : Any]
     }
@@ -165,7 +167,7 @@ class NewJoinActiveCommand:BaseCommand
             {
                 let data:JoinData = try JSONDecoder().decode(JoinData.self, from: strData.data(using: .utf8)!)
                 let id = data.plugindata.data.publishers[0].id
-                delegate.info_for_cliendID[id] = data.plugindata.data.publishers[0]
+                delegate.info_from_janusId[id] = data.plugindata.data.publishers[0]
                 delegate.sendCommand(command: AttachCommand(delegate: delegate, handleId: 0, data: AttachId(id: id)))
             }
         }catch let error {
@@ -194,7 +196,7 @@ public class UnpublishCommand:BaseCommand
     override public func receive(strData: String) {
         if strData.contains("event")
         {
-            delegate.disconnectMeetingById(id: delegate.getClienIDFromHandId(id: handle_id))
+            delegate.disconnectMeetingById(id: delegate.getJanusIdFromHandId(id: handle_id))
         }
     }
     override func getDataObject() -> [String : Any] {
@@ -244,7 +246,7 @@ class JoinParticipantCommand:BaseCommand
     override func getDataObject() -> [String : Any] {
         var pData:JoinParticipantsData = preData as! JoinParticipantsData
         let view_id = pData.plugindata.data.participants[0].id
-        delegate.handle_id_for_cliendID[handle_id] = String(view_id)
+        delegate.handle_id_to_janusId[handle_id] = String(view_id)
         return ["janus": "message", "transaction":transaction, "session_id":delegate.session_id,"handle_id":handle_id,"body":["feed":view_id,"private_id":0,"ptype":"subscriber","request":"join","room":delegate.roomId]
             ] as [String : Any]
     }
@@ -258,7 +260,7 @@ class SendOfferCommand:BaseCommand
             if strData.contains("event")
             {
                 let data:OfferReturnData = try JSONDecoder().decode(OfferReturnData.self, from: strData.data(using: .utf8)!)
-                let id = delegate.getClienIDFromHandId(id: data.sender)
+                let id = delegate.getJanusIdFromHandId(id: data.sender)
                 delegate.client?.handleAnswerReceived(id,withRemoteSDP: data.jsep.sdp)
             }
         }catch let error {

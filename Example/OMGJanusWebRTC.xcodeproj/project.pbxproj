@@ -212,10 +212,12 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = D5Y7Q8DU9V;
 						LastSwiftMigration = 0900;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = D5Y7Q8DU9V;
 						LastSwiftMigration = 0900;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
@@ -473,6 +475,8 @@
 			baseConfigurationReference = 766BEAABD8A1E9EDBBF2A122 /* Pods-OMGJanusWebRTC_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = D5Y7Q8DU9V;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = OMGJanusWebRTC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -489,6 +493,8 @@
 			baseConfigurationReference = 621690060D7B4370F5B47104 /* Pods-OMGJanusWebRTC_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = D5Y7Q8DU9V;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = OMGJanusWebRTC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -504,6 +510,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C8805740EDB7BF3D4AB4DB0C /* Pods-OMGJanusWebRTC_Tests.debug.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = D5Y7Q8DU9V;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -526,6 +533,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 096869CDDA84CCE3F2B8F815 /* Pods-OMGJanusWebRTC_Tests.release.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = D5Y7Q8DU9V;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
