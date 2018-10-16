@@ -33,11 +33,11 @@ public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
     open var client:RTCClient?
     var type:JanusType = .Join
     private var socket:WebSocket?
-    private var clientId:String = ""
     private var tempRemotSdp:String?
     private var _aliveTimer:Timer?
     
-     var id:String = "main"
+    var myJanusId:String = ""
+    
     var commandList = [BaseCommand]()
     /**
      url : handshake socket server url
@@ -59,23 +59,23 @@ public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
         self.sendCommand(command: KeepAliveCommand(delegate: self, handleId: 0))
     }
     
-    public func getHandIdForJanusId(id:String)->Int
+    public func getHandIdForJanusId(id:String)->Int?
     {
         for (handleId,janusId) in handle_id_to_janusId {
             if janusId == id{
                 return handleId
             }
         }
-        return 0
+        return nil
     }
-    public func getJanusIdFromHandId(id:Int)->String
+    public func getJanusIdFromHandId(id:Int)->String?
     {
         for (handleId,janusId) in handle_id_to_janusId {
             if handleId == id{
                 return janusId
             }
         }
-        return ""
+        return nil
     }
     public func getDisplayForJanusId(id:String)-> String?
     {
@@ -104,10 +104,19 @@ public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
         return nil
     }
     
-    public func getMyClienID()->String
+    public func unpublishMyself()
     {
-        return self.clientId
+        if let myHanldId = getHandIdForJanusId(id: myJanusId)
+        {
+            sendCommand(command: UnpublishCommand(delegate: self, handleId: myHanldId))
+        }
     }
+    public func publishMyself()
+    {
+        client?.startConnection(myJanusId, localStream: true)
+        client?.makeOffer(myJanusId)
+    }
+
     public func sendCommand(command:BaseCommand)
     {
         commandList.append(command);
@@ -175,13 +184,11 @@ public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
         
     }
     
-    
-    public func registerMeetRoom(_ roomId:Int64, clientId:String){
+    public func registerMeetRoom(_ roomId:Int64){
         
         self.roomId = roomId
-        self.clientId = clientId
         socket?.connect()
-        print("[registerMeetRoom]:\(roomId),clientId:\(clientId)")
+        print("[registerMeetRoom]:\(roomId),clientId:\(myJanusId)")
         
     }
     
@@ -201,23 +208,23 @@ public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
         socket?.disconnect()
         socket?.delegate = nil
         socket = nil
-        client?.disconnect(id)
+        client?.disconnectAll()
         client?.delegate = nil
         client = nil
     }
     
-    private func doRegister()
-    {
-        let props = ["cmd": "register", "clientid":clientId,"roomid":roomId] as [String : Any]
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: props,
-                                                      options: .prettyPrinted)
-            socket?.write(string:String(data: jsonData, encoding: String.Encoding.utf8)!)
-            print("[doRegister]:\(roomId),clientId:\(clientId)")
-        } catch let error {
-            print("error converting to json: \(error)")
-        }
-    }
+//    private func doRegister()
+//    {
+//        let props = ["cmd": "register", "clientid":clientId,"roomid":roomId] as [String : Any]
+//        do {
+//            let jsonData = try JSONSerialization.data(withJSONObject: props,
+//                                                      options: .prettyPrinted)
+//            socket?.write(string:String(data: jsonData, encoding: String.Encoding.utf8)!)
+//            print("[doRegister]:\(roomId),clientId:\(clientId)")
+//        } catch let error {
+//            print("error converting to json: \(error)")
+//        }
+//    }
     
     
     func sendMsg(string :String)

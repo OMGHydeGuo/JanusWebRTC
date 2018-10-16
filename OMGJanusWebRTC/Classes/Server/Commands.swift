@@ -101,7 +101,8 @@ class JoinForPublisherCommand:BaseCommand
                 let data:JoinData = try JSONDecoder().decode(JoinData.self, from: strData.data(using: .utf8)!)
                 let id = String(data.plugindata.data.id ?? 0)
                 
-                delegate.handle_id_to_janusId[handle_id] = id
+                delegate.myJanusId = id
+                delegate.handle_id_to_janusId[handle_id] = delegate.myJanusId
                 
                 if(delegate.initPublish){
                     delegate.client?.startConnection(id, localStream: true)
@@ -194,9 +195,9 @@ class ReceiveUnpublishCommand:BaseCommand
 public class UnpublishCommand:BaseCommand
 {
     override public func receive(strData: String) {
-        if strData.contains("event")
+        if strData.contains("event") ,let _janusId = delegate.getJanusIdFromHandId(id: handle_id)
         {
-            delegate.disconnectMeetingById(id: delegate.getJanusIdFromHandId(id: handle_id))
+            delegate.disconnectMeetingById(id:_janusId )
         }
     }
     override func getDataObject() -> [String : Any] {
@@ -260,8 +261,10 @@ class SendOfferCommand:BaseCommand
             if strData.contains("event")
             {
                 let data:OfferReturnData = try JSONDecoder().decode(OfferReturnData.self, from: strData.data(using: .utf8)!)
-                let id = delegate.getJanusIdFromHandId(id: data.sender)
-                delegate.client?.handleAnswerReceived(id,withRemoteSDP: data.jsep.sdp)
+                if let id = delegate.getJanusIdFromHandId(id: data.sender){
+                    delegate.client?.handleAnswerReceived(id,withRemoteSDP: data.jsep.sdp)
+                }
+                
             }
         }catch let error {
             print("error converting to json: \(error)")

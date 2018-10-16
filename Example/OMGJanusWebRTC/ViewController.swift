@@ -31,7 +31,6 @@ class ViewController: UIViewController ,OMGRTCClientDelegate,RTCEAGLVideoViewDel
     var clientServer: RTCVideoServer?
     var rtcOperator: WebRTCOperator?
     
-    var myJanusId = ""
     
     
     override func viewDidLoad() {
@@ -57,7 +56,7 @@ class ViewController: UIViewController ,OMGRTCClientDelegate,RTCEAGLVideoViewDel
 //        clientServer?.initPublish = false
         rtcOperator = WebRTCOperator(delegate: self,omgSocket: clientServer!)
         rtcManager?.delegate = rtcOperator
-        clientServer?.registerMeetRoom(1234, clientId: myId)
+        clientServer?.registerMeetRoom(1234)
         
         
         
@@ -74,16 +73,12 @@ class ViewController: UIViewController ,OMGRTCClientDelegate,RTCEAGLVideoViewDel
     
     @IBAction public func unpublishMyself()
     {
-        if let myHanldId = clientServer?.getHandIdForJanusId(id: myJanusId)
-        {
-            clientServer?.sendCommand(command: UnpublishCommand(delegate: clientServer!, handleId: myHanldId))
-            rtcLocalView?.removeFromSuperview()
-        }
+        clientServer?.unpublishMyself()
+        rtcLocalView?.removeFromSuperview()
     }
     @IBAction public func publishMyself()
     {
-        clientServer?.client?.startConnection(myJanusId, localStream: true)
-        clientServer?.client?.makeOffer(myJanusId)
+        clientServer?.publishMyself()
         localView.addSubview(rtcLocalView!)
     }
     
@@ -98,7 +93,6 @@ class ViewController: UIViewController ,OMGRTCClientDelegate,RTCEAGLVideoViewDel
     
     func rtcClient(_ id: String, didReceiveLocalVideoTrack localVideoTrack: RTCVideoTrack) {
         //        rtcLocalView?.captureSession=(localVideoTrack.source as! RTCAVFoundationVideoSource).captureSession
-        self.myJanusId = id
         self.localVideoTrack = localVideoTrack
         localVideoTrack.add(self.rtcLocalView!)
     }
