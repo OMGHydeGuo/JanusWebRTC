@@ -121,6 +121,7 @@ public class RTCClient: NSObject {
             peerConnection.remove(stream)
         }
         peerConnections.removeValue(forKey: id)
+        remoteIceCandidates.removeValue(forKey: id)
     }
     
     public func disconnectAll() {
@@ -130,6 +131,8 @@ public class RTCClient: NSObject {
                 peerConnection.remove(stream)
             }
         }
+        peerConnections.removeAll()
+        remoteIceCandidates.removeAll()
     }
     
     public func getConnectActiveNum()->Int {
@@ -204,10 +207,7 @@ public class RTCClient: NSObject {
 
     public func addIceCandidate(_ id:String ,iceCandidate: RTCIceCandidate) {
         // Set ice candidate after setting remote description
-        guard var remoteIceCandidate = remoteIceCandidates[id] else {
-            remoteIceCandidates[id] = []
-            return
-        }
+
         guard let peerConnection = getPeerConnection(id) else {
             return
         }
@@ -215,7 +215,10 @@ public class RTCClient: NSObject {
         if peerConnection.remoteDescription != nil {
             peerConnection.add(iceCandidate)
         } else {
-            remoteIceCandidate.append(iceCandidate)
+            if remoteIceCandidates[id] == nil{
+                remoteIceCandidates[id] = [RTCIceCandidate]()
+            }
+            remoteIceCandidates[id]!.append(iceCandidate)
         }
     }
 }

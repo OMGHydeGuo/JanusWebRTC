@@ -26,10 +26,10 @@ public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
     open var maxViewer = 2
     open var display:String=""
     var roomId:Int64=1234
-    var session_id:Int = 0
+    var session_id:Int64 = 0
     var private_id:Int = 0
-    var handle_id_to_janusId:[Int:String] = [:]
-    var info_from_janusId:[Int:Publisher] = [:]
+    var janusId_id_to_handle:[String:Int64] = [:]
+    var info_from_janusId:[Int64:Publisher] = [:]
     open var client:RTCClient?
     var type:JanusType = .Join
     private var socket:WebSocket?
@@ -48,7 +48,7 @@ public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
         self.client = client
     }
     
-    func setSessionId(_ id :Int)
+    func setSessionId(_ id :Int64)
     {
         session_id = id
         _aliveTimer = Timer.scheduledTimer(timeInterval: 25, target: self, selector: #selector(senfAlive), userInfo: nil, repeats: true)
@@ -59,18 +59,18 @@ public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
         self.sendCommand(command: KeepAliveCommand(delegate: self, handleId: 0))
     }
     
-    public func getHandIdForJanusId(id:String)->Int?
+    public func getHandIdForJanusId(id:String)->Int64?
     {
-        for (handleId,janusId) in handle_id_to_janusId {
+        for (janusId,handleId) in janusId_id_to_handle {
             if janusId == id{
                 return handleId
             }
         }
         return nil
     }
-    public func getJanusIdFromHandId(id:Int)->String?
+    public func getJanusIdFromHandId(id:Int64)->String?
     {
-        for (handleId,janusId) in handle_id_to_janusId {
+        for (janusId,handleId) in janusId_id_to_handle {
             if handleId == id{
                 return janusId
             }
@@ -86,7 +86,7 @@ public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
         }
         return nil
     }
-    public func getJanusIdForDisplay(display:String)-> Int?
+    public func getJanusIdForDisplay(display:String)-> Int64?
     {
         for (janusId,publishData) in info_from_janusId {
             if publishData.display == display {
@@ -95,7 +95,7 @@ public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
         }
         return nil
     }
-    public func getHandIdForDisplay(display:String)-> Int?
+    public func getHandIdForDisplay(display:String)-> Int64?
     {
         if let janusId = getJanusIdForDisplay(display:display)
         {
@@ -127,7 +127,7 @@ public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
     public func websocketDidConnect(socket: WebSocket) {
         
         print("[websocket connected]")
-        handle_id_to_janusId = [:]
+        janusId_id_to_handle = [:]
         info_from_janusId = [:]
         sendCommand(command: CreateCommand(delegate: self, handleId: 0))
     }

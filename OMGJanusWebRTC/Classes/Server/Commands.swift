@@ -18,9 +18,9 @@ public class BaseCommand:CommandDelegate
     var time:TimeInterval
     var transaction:String
     var delegate:RTCVideoServer
-    var handle_id:Int
+    var handle_id:Int64
     var preData:Codable?
-    public init(delegate:RTCVideoServer,handleId:Int,data:Codable? = nil) {
+    public init(delegate:RTCVideoServer,handleId:Int64,data:Codable? = nil) {
         self.transaction = UUID.init().uuidString
         self.delegate = delegate
         self.handle_id = handleId
@@ -33,6 +33,7 @@ public class BaseCommand:CommandDelegate
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: getDataObject(),options: .prettyPrinted)
             sendData = String(data: jsonData, encoding: String.Encoding.utf8)!
+//            print("sendData: \(sendData)")
         } catch let error {
             print("error converting to json: \(error)")
         }
@@ -70,7 +71,6 @@ class AttachCommand:BaseCommand
         do {
             let data:AttachData = try JSONDecoder().decode(AttachData.self, from: strData.data(using: .utf8)!)
             handle_id = data.data.id
-            delegate.handle_id_to_janusId[handle_id] = ""
             
             if(delegate.type == .Listparticipants){
                 delegate.sendCommand(command: ListparticipantsCommand(delegate: delegate, handleId: handle_id))
@@ -102,7 +102,7 @@ class JoinForPublisherCommand:BaseCommand
                 let id = String(data.plugindata.data.id ?? 0)
                 
                 delegate.myJanusId = id
-                delegate.handle_id_to_janusId[handle_id] = delegate.myJanusId
+                delegate.janusId_id_to_handle[delegate.myJanusId] = handle_id
                 
                 if(delegate.initPublish){
                     delegate.client?.startConnection(id, localStream: true)
@@ -154,7 +154,7 @@ class JoinForSubscriberCommand:BaseCommand
     override func getDataObject() -> [String : Any] {
 
         let pData:AttachId = preData as! AttachId
-        delegate.handle_id_to_janusId[handle_id] = String(pData.id)
+        delegate.janusId_id_to_handle[String(pData.id)] = handle_id
         return ["janus": "message", "transaction":transaction, "session_id":delegate.session_id,"handle_id":handle_id,"body":["display":"subscriber", "feed":pData.id,"private_id":delegate.private_id,"ptype":"subscriber","request":"join","room":delegate.roomId]
             ] as [String : Any]
     }
@@ -247,7 +247,7 @@ class JoinParticipantCommand:BaseCommand
     override func getDataObject() -> [String : Any] {
         var pData:JoinParticipantsData = preData as! JoinParticipantsData
         let view_id = pData.plugindata.data.participants[0].id
-        delegate.handle_id_to_janusId[handle_id] = String(view_id)
+        delegate.janusId_id_to_handle[String(view_id)] = handle_id
         return ["janus": "message", "transaction":transaction, "session_id":delegate.session_id,"handle_id":handle_id,"body":["feed":view_id,"private_id":0,"ptype":"subscriber","request":"join","room":delegate.roomId]
             ] as [String : Any]
     }

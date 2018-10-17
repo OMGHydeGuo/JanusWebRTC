@@ -67,12 +67,12 @@ struct JanusData : Codable {
 
     var janus:String
     var transaction:String
-    var session_id:Int
+    var session_id:Int64
 }
 
 struct CreateData : Codable {
     struct SessionData: Codable{
-        var id:Int
+        var id:Int64
     }
     var janus:String
     var transaction:String
@@ -81,18 +81,18 @@ struct CreateData : Codable {
 
 struct AttachData : Codable {
     struct HandleData: Codable{
-        var id:Int
+        var id:Int64
     }
     var janus:String
     var transaction:String
     var data:HandleData
-    var session_id:Int
+    var session_id:Int64
 }
 struct AttachId : Codable {
-    var id:Int
+    var id:Int64
 }
 struct Publisher : Codable {
-    var id:Int
+    var id:Int64
     var display:String
     var audio_codec:String?
     var video_codec:String?
@@ -110,9 +110,11 @@ struct JsepData: Codable{
 }
 struct CandidateData: Codable{
     var sdpMid:String
-    var lineIndex:Int
+    var lineIndex:Int32
     var candidate:String
 }
+
+
 struct JoinData : Codable {
    
     struct InData: Codable{
@@ -130,8 +132,8 @@ struct JoinData : Codable {
     var janus:String
     var transaction:String?
     var plugindata:PluginData
-    var session_id:Int
-    var sender :Int
+    var session_id:Int64
+    var sender :Int64
 }
 struct JoinOfferData : Codable {
     
@@ -149,8 +151,8 @@ struct JoinOfferData : Codable {
     var transaction:String
     var plugindata:PluginData
     var jsep:JsepData
-    var session_id:Int
-    var sender :Int
+    var session_id:Int64
+    var sender :Int64
 }
 
 struct JoinParticipantsData : Codable {
@@ -167,8 +169,8 @@ struct JoinParticipantsData : Codable {
     var janus:String
     var transaction:String
     var plugindata:PluginData
-    var session_id:Int
-    var sender :Int
+    var session_id:Int64
+    var sender :Int64
 }
 
 struct AnswerReturnData : Codable {
@@ -185,8 +187,8 @@ struct AnswerReturnData : Codable {
     var janus:String
     var transaction:String
     var plugindata:PluginData
-    var session_id:Int
-    var sender :Int
+    var session_id:Int64
+    var sender :Int64
 }
 struct OfferReturnData : Codable {
     
@@ -208,8 +210,8 @@ struct OfferReturnData : Codable {
     var jsep:JsepData
     var transaction:String
     var plugindata:PluginData
-    var session_id:Int
-    var sender :Int
+    var session_id:Int64
+    var sender :Int64
 }
 
 struct UnpublishData:Codable{
@@ -224,6 +226,6 @@ struct UnpublishData:Codable{
     }
     var janus:String
     var plugindata:PluginData
-    var session_id:Int
-    var sender :Int
+    var session_id:Int64
+    var sender :Int64
 }

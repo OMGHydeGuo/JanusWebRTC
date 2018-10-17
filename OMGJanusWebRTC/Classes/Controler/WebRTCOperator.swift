@@ -68,7 +68,7 @@ public class  WebRTCOperator: RTCClientDelegate {
     public func rtcClient(_ id:String ,client : RTCClient, didGenerateIceCandidate iceCandidate: RTCIceCandidate) {
         // iceCandidate generated, pass this to other user using any signal method your app uses
 
-        let cData = CandidateData(sdpMid: iceCandidate.sdpMid!, lineIndex: Int(iceCandidate.sdpMLineIndex), candidate: iceCandidate.sdp)
+        let cData = CandidateData(sdpMid: iceCandidate.sdpMid!, lineIndex: iceCandidate.sdpMLineIndex, candidate: iceCandidate.sdp)
         let myServer = getServer(id)
         if let handle_id = myServer.getHandIdForJanusId(id: id)
         {
@@ -128,8 +128,8 @@ public class  WebRTCOperator: RTCClientDelegate {
 
 public protocol OMGRTCServerDelegate: class {
     func sendCommand(command:BaseCommand)
-    func getHandIdForJanusId(id:String)->Int?
-    func getJanusIdFromHandId(id:Int)->String?
+    func getHandIdForJanusId(id:String)->Int64?
+    func getJanusIdFromHandId(id:Int64)->String?
     func disconnectMeeting()
 }
 
