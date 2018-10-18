@@ -20,7 +20,7 @@ enum JanusType
 
 public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
 
-    
+
 
     open var initPublish = true
     open var maxViewer = 2
@@ -124,7 +124,7 @@ public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
         socket?.write(string:sendText)
     }
     
-    public func websocketDidConnect(socket: WebSocket) {
+    public func websocketDidConnect(socket: WebSocketClient) {
         
         print("[websocket connected]")
         janusId_id_to_handle = [:]
@@ -133,7 +133,7 @@ public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
     }
 
     
-    public func websocketDidDisconnect(socket: WebSocket, error: NSError?) {
+    public func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
         if let e = error {
             print("[websocket  is disconnected: \(e.localizedDescription)]")
         } else {
@@ -141,12 +141,12 @@ public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
         }
     }
     
-    public func websocketDidReceiveMessage(socket: WebSocket, text: String) {
+    public func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
      
         onDataReceived(str: text)
     }
     
-    public func websocketDidReceiveData(socket: WebSocket, data: Data) {
+    public func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
 //        print("Received data: \(data.count)")
         let dataString = String(data: data, encoding: .utf8)!
         onDataReceived(str: dataString)
