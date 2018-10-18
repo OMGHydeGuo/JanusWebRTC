@@ -20,7 +20,7 @@ it, simply add the following line to your Podfile:
 pod 'OMGJanusWebRTC'
 ```
 
-set OMGJanusWebRTC to Enable Bitcode to No
+set  Enable Bitcode to No at Build Settings
 
 
 ## Author
