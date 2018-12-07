@@ -99,7 +99,7 @@ struct Publisher : Codable {
     var talking:Bool?
 }
 struct Participant : Codable {
-    var id:Int
+    var id:Int64
     var display:String
     var publisher:Bool
     var talking:Bool
@@ -121,8 +121,8 @@ struct JoinData : Codable {
         var videoroom:String
         var description:String?
         var id:Double?
-        var room:Int
-        var private_id:Int?
+        var room:Int64
+        var private_id:Int64?
         var publishers:[Publisher]
     }
     struct PluginData: Codable{
@@ -140,8 +140,8 @@ struct JoinOfferData : Codable {
     struct InData: Codable{
         var videoroom:String
         var display:String
-        var id:Int
-        var room:Int
+        var id:Int64
+        var room:Int64
     }
     struct PluginData: Codable{
         var plugin:String
@@ -159,7 +159,7 @@ struct JoinParticipantsData : Codable {
     
     struct InData: Codable{
         var videoroom:String
-        var room:Int
+        var room:Int64
         var participants:[Participant]
     }
     struct PluginData: Codable{
@@ -178,7 +178,7 @@ struct AnswerReturnData : Codable {
     struct InData: Codable{
         var videoroom:String
         var started:String
-        var room:Int
+        var room:Int64
     }
     struct PluginData: Codable{
         var plugin:String
@@ -194,7 +194,7 @@ struct OfferReturnData : Codable {
     
     struct InData: Codable{
         var videoroom:String
-        var room:Int
+        var room:Int64
         var configured:String
         var audio_codec:String
         var video_codec:String
@@ -217,8 +217,8 @@ struct OfferReturnData : Codable {
 struct UnpublishData:Codable{
     struct InData: Codable{
         var videoroom:String
-        var room:Int
-        var unpublished:Int
+        var room:Int64
+        var unpublished:Int64
     }
     struct PluginData: Codable{
         var plugin:String

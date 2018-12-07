@@ -27,7 +27,7 @@ public class RTCVideoServer: WebSocketDelegate ,OMGRTCServerDelegate{
     open var display:String=""
     var roomId:Int64=1234
     var session_id:Int64 = 0
-    var private_id:Int = 0
+    var private_id:Int64 = 0
     var janusId_id_to_handle:[String:Int64] = [:]
     var info_from_janusId:[Int64:Publisher] = [:]
     open var client:RTCClient?
